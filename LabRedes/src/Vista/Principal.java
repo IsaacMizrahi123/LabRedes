@@ -3,13 +3,15 @@ package Vista;
 import Controlador.Brain;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Isaac
  */
 public class Principal extends javax.swing.JFrame {
-
+    int Identificador = 3;
+    String generador;
     /**
      * Creates new form Principal
      */
@@ -25,13 +27,21 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         BAbrir = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        BAbrir.setText("Abrir");
+        BAbrir.setText("Codificar");
         BAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BAbrirActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Decodificar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -40,25 +50,42 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(BAbrir)
-                .addGap(0, 342, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BAbrir)
+                    .addComponent(jButton1))
+                .addGap(0, 312, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(BAbrir)
-                .addGap(0, 275, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(0, 246, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void BAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAbrirActionPerformed
+        generador = JOptionPane.showInputDialog("Ingrese el polinomio generador");
+        Brain.AsignarPolinomioGenerador(generador);
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
-        Brain.GetInfo(f);
+        Identificador = 1;
+        Brain.GetInfo(f, Identificador);
     }//GEN-LAST:event_BAbrirActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        generador = JOptionPane.showInputDialog("Ingrese el polinomio generador");
+        Brain.AsignarPolinomioGenerador(generador);
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();
+        Identificador = 2;
+        Brain.GetInfo(f, Identificador);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,5 +124,6 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BAbrir;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

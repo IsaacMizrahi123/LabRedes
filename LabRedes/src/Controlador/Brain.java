@@ -29,7 +29,7 @@ public class Brain {
         ventana.setVisible(true);
     }
 
-    public static void GetInfo(File f) { //Se consigue los valores de numregistro, numcampos, ks y tipos
+    public static void GetInfo(File f, int tipo) { //Se consigue los valores de numregistro, numcampos, ks y tipos
         String line;//Con la que se saca linea por linea  el texto del txt.
         text = "";//Se "limpia" la variable donde todo el texto se va a contener.
         try {
@@ -42,11 +42,18 @@ public class Brain {
             }
             br.close();
             fr.close();
-            System.out.println(text);//Esto es para comprobar
-            GetASCII(text);//En esta funcion se le asigna a la variable "ASCIICode" la traduccion de todo "text" a ASCCI
+            if(tipo == 1){
+                System.out.println(text);//Esto es para comprobar
+                GetASCII(text);//En esta funcion se le asigna a la variable "ASCIICode" la traduccion de todo "text" a ASCCI
             //GetHexAndBin(text);
+                GetHexBinDataWords(text);//En esta funcion se hayan los valores hexadecimales y binarios del texto y se guarda en una lista los datawords
+            }else{
+                System.out.println("Su CodeWord es: "+text);//Esto es para comprobar
+            }
+                
+            
             //Se debe leer DIV antes!
-            GetHexBinDataWords(text);//En esta funcion se hayan los valores hexadecimales y binarios del texto y se guarda en una lista los datawords
+            
         } catch (IOException e) {
             System.out.println("Error en GetInfo");
         }
@@ -57,52 +64,51 @@ public class Brain {
         for (int i = 0; i < characters.length(); i++) {
             ASCIICode = ASCIICode + Integer.toString((int) characters.charAt(i));
         }
-        System.out.println(ASCIICode);
+        System.out.println("El codigo ASCII es: "+ASCIICode);
     }
 
-    public static void GetHex(String characters) {//Es reemplazado por GetHexAndBin
-        HexCode = "";
-        for (int i = 0; i < characters.length(); i++) {
-            HexCode = HexCode + Integer.toHexString((int) characters.charAt(i));
-        }
-        System.out.println(HexCode);
-    }
+//    public static void GetHex(String characters) {//Es reemplazado por GetHexAndBin
+//        HexCode = "";
+//        for (int i = 0; i < characters.length(); i++) {
+//            HexCode = HexCode + Integer.toHexString((int) characters.charAt(i));
+//        }
+//        System.out.println(HexCode);
+//    }
 
-    public static void GetHexAndBin(String characters) {//Se va conviertiendo el texto leido a hexadecimal y enseguida a binario, para ahorrar tiempo.
-        HexCode = "";//Se "limpia" la variable HexCode donde se va a guardar la traduccion de "text" a su codigo hexadecimal.
-        Bin = "";//Se "limpia" la variable Bin donde se va a guardar la traduccion de los codigos Hexadecimales a Binario. Que es lo que se necesita enviar.
-        String temp = "", as, bs;//Variables necesarias para convertir y agregar caracteres a los Strings.
-        int a, b;
-        for (int i = 0; i < characters.length(); i++) {
-            temp = Integer.toHexString((int) characters.charAt(i));//Se convierte letra por letra a Hexadecimal, que siempre son dos letras. Ej: Letra:k -> Hex:4b
-            HexCode = HexCode + temp;//Se le agrega al string que va a mantener todos los codigos hexadecimales en secuencia.
-            a = Integer.parseInt(Character.toString(temp.charAt(0)), 16);//Se convierte el primer digito del numero hexadecimal a int para porder convertirlo a binario luego. Ej: String:4 -> Int:4
-            b = Integer.parseInt(Character.toString(temp.charAt(1)), 16);//Se convierte el segundo digito a numero. Ej: String:B -> Int:11
-            as = Integer.toBinaryString(a);//Convierte el int a binario. Ej: Int: 4 -> Bin: 100
-            bs = Integer.toBinaryString(b);//Convierte el segundo int a binario. Ej: Int:11 -> Bin:1011
-            while (as.length() < 4) {//Se le agregan los ceros necesario para completar los 4 digitos. Ej: Bin:100 -> String:0100
-                as = "0" + as;
-            }
-            while (bs.length() < 4) {
-                bs = "0" + bs;
-            }
-            Bin = Bin + as + bs;//Se guardan los codigos binarios. Cada caracter son 8 digitos binarios.
-        }
-        System.out.println(HexCode);//Para comprobar
-        System.out.println(Bin);//Para comprobar
-    }
+//    public static void GetHexAndBin(String characters) {//Se va conviertiendo el texto leido a hexadecimal y enseguida a binario, para ahorrar tiempo.
+//        HexCode = "";//Se "limpia" la variable HexCode donde se va a guardar la traduccion de "text" a su codigo hexadecimal.
+//        Bin = "";//Se "limpia" la variable Bin donde se va a guardar la traduccion de los codigos Hexadecimales a Binario. Que es lo que se necesita enviar.
+//        String temp = "", as, bs;//Variables necesarias para convertir y agregar caracteres a los Strings.
+//        int a, b;
+//        for (int i = 0; i < characters.length(); i++) {
+//            temp = Integer.toHexString((int) characters.charAt(i));//Se convierte letra por letra a Hexadecimal, que siempre son dos letras. Ej: Letra:k -> Hex:4b
+//            HexCode = HexCode + temp;//Se le agrega al string que va a mantener todos los codigos hexadecimales en secuencia.
+//            a = Integer.parseInt(Character.toString(temp.charAt(0)), 16);//Se convierte el primer digito del numero hexadecimal a int para porder convertirlo a binario luego. Ej: String:4 -> Int:4
+//            b = Integer.parseInt(Character.toString(temp.charAt(1)), 16);//Se convierte el segundo digito a numero. Ej: String:B -> Int:11
+//            as = Integer.toBinaryString(a);//Convierte el int a binario. Ej: Int: 4 -> Bin: 100
+//            bs = Integer.toBinaryString(b);//Convierte el segundo int a binario. Ej: Int:11 -> Bin:1011
+//            while (as.length() < 4) {//Se le agregan los ceros necesario para completar los 4 digitos. Ej: Bin:100 -> String:0100
+//                as = "0" + as;
+//            }
+//            while (bs.length() < 4) {
+//                bs = "0" + bs;
+//            }
+//            Bin = Bin + as + bs;//Se guardan los codigos binarios. Cada caracter son 8 digitos binarios.
+//        }
+//        System.out.println(HexCode);//Para comprobar
+//        System.out.println(Bin);//Para comprobar
+//    }
 
-    public static void NameOutput(String s) {//Funcion para nombrar el archivo de salida. No se le esta agregando la extencion txt.
-        if (s.isEmpty()) {
-            nombreDeSalida = "salida";
-        } else {
-            nombreDeSalida = s;
-        }
-    }
+//    public static void NameOutput(String s) {//Funcion para nombrar el archivo de salida. No se le esta agregando la extencion txt.
+//        if (s.isEmpty()) {
+//            nombreDeSalida = "salida";
+//        } else {
+//            nombreDeSalida = s;
+//        }
+//    }
 
     public static void GetHexBinDataWords(String characters) {//Se va conviertiendo el texto leido a hexadecimal y enseguida a binario, para ahorrar tiempo. Y enseguida se van separando las DataWords
 
-        AsignarPolinomioGenerador("1001");//aweuiotryioutryuiotryryuiop BORRAR
 
         HexCode = "";//Se "limpia" la variable HexCode donde se va a guardar la traduccion de "text" a su codigo hexadecimal.
         Bin = "";//Se "limpia" la variable Bin donde se va a guardar la traduccion de los codigos Hexadecimales a Binario. Que es lo que se necesita enviar.
@@ -131,6 +137,10 @@ public class Brain {
                 DataWords.add(dataw);
                 CodeWords.add(GetCodeWord(dataw));//Se codifica enseguida.
                 dataw = "";//Se reinicia la variable para grabar en ella los proximos 128 digitos.
+            }
+            System.out.println("El codeWord es: ");
+            for (int j = 0; j < CodeWords.size(); j++) {
+                System.out.println(CodeWords.get(j));
             }
         }
         System.out.println(HexCode);//Para comprobar
